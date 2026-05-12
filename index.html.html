@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSS Beta Tester Guide</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .page { max-width: 620px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 16px; border: 0.5px solid #e0e0e0; padding: 2rem; margin-bottom: 1.5rem; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #e6f1fb; color: #185FA5; margin-bottom: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+  h1 { font-size: 22px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .sub { font-size: 14px; color: #666; }
+  .divider { border: none; border-top: 0.5px solid #e8e8e8; margin: 1.5rem 0; }
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; }
+  .step-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: #f0f0ee; border: 0.5px solid #d0d0d0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #555; flex-shrink: 0; }
+  .step-line { width: 1px; background: #e8e8e8; flex: 1; margin: 4px 0; min-height: 16px; }
+  .step-content { padding-bottom: 24px; padding-left: 12px; flex: 1; padding-top: 3px; }
+  .step-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; display: flex; align-items: center; gap: 7px; }
+  .step-title i { font-size: 15px; color: #888; }
+  .step-desc { font-size: 13px; color: #666; line-height: 1.6; }
+  .cats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .cat { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: #f5f5f3; border: 0.5px solid #d8d8d8; color: #555; }
+  .req { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #854F0B; background: #FAEEDA; border-radius: 20px; padding: 2px 8px; margin-top: 8px; }
+  .req i { font-size: 12px; }
+  .cc-box { margin-top: 10px; background: #f8f8f6; border-radius: 10px; padding: 12px 14px; border: 0.5px solid #e4e4e4; }
+  .cc-label-head { font-size: 11px; font-weight: 600; color: #999; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+  .cc-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+  .cc-key { font-size: 13px; color: #666; }
+  .cc-val { font-size: 13px; font-weight: 600; font-family: 'SF Mono', 'Fira Code', monospace; color: #1a1a1a; background: #fff; border: 0.5px solid #d8d8d8; border-radius: 6px; padding: 2px 10px; cursor: pointer; transition: background 0.12s, color 0.12s; }
+  .cc-val:hover { background: #e6f1fb; color: #185FA5; }
+  .copy-hint { font-size: 11px; color: #aaa; margin-top: 6px; }
+  h2 { font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .survey-sub { font-size: 13px; color: #666; margin-bottom: 1.5rem; }
+  .q-block { margin-bottom: 1.5rem; }
+  .q-label { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 10px; display: block; }
+  .q-sub { font-size: 12px; color: #888; margin-top: -6px; margin-bottom: 10px; display: block; }
+  .star-row { display: flex; gap: 6px; }
+  .star { font-size: 24px; cursor: pointer; color: #d8d8d8; transition: color 0.1s; line-height: 1; user-select: none; }
+  .star.on { color: #BA7517; }
+  .rating-labels { display: flex; justify-content: space-between; margin-top: 4px; }
+  .rating-label { font-size: 11px; color: #aaa; }
+  .options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { font-size: 13px; padding: 6px 14px; border: 0.5px solid #d0d0d0; border-radius: 20px; cursor: pointer; color: #555; background: transparent; transition: all 0.15s; user-select: none; }
+  .opt:hover { background: #f5f5f3; }
+  .opt.sel { background: #e6f1fb; border-color: #85B7EB; color: #185FA5; }
+  textarea { width: 100%; font-size: 13px; font-family: inherit; padding: 10px 12px; border: 0.5px solid #d0d0d0; border-radius: 10px; background: #fff; color: #1a1a1a; resize: vertical; min-height: 80px; line-height: 1.5; }
+  textarea:focus { outline: none; border-color: #185FA5; }
+  .nps-row { display: flex; gap: 4px; }
+  .nps-btn { flex: 1; height: 36px; border: 0.5px solid #e0e0e0; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; background: #fff; color: #555; transition: all 0.15s; }
+  .nps-btn:hover { background: #f5f5f3; }
+  .nps-btn.sel { background: #0C447C; border-color: #0C447C; color: #fff; }
+  .submit-btn { width: 100%; padding: 13px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; background: #185FA5; color: #fff; transition: all 0.15s; margin-top: 0.5rem; }
+  .submit-btn:hover { background: #0C447C; }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+  .toast { display: none; margin-top: 1rem; padding: 14px 16px; background: #EAF3DE; border: 0.5px solid #97C459; border-radius: 10px; color: #3B6D11; font-size: 13px; font-weight: 500; text-align: center; }
+  .toast.show { display: block; }
+  .error-msg { display: none; margin-top: 1rem; padding: 12px 16px; background: #FCEBEB; border: 0.5px solid #F09595; border-radius: 10px; color: #A32D2D; font-size: 13px; }
+  .error-msg.show { display: block; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="card">
+    <span class="badge">Beta tester guide</span>
+    <h1>OSS beta testing — job aid</h1>
+    <p class="sub">Follow each step, then complete the short survey at the end.</p>
+    <hr class="divider">
+    <div class="steps">
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title"><i class="ti ti-user-plus"></i> Create an account</div>
+          <div class="step-desc">Sign up with your real name and a working email. You'll need to verify it before continuing.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title"><i class="ti ti-tag"></i> Create a product listing</div>
+          <div class="step-desc">List a real product with a title, description, and price. Choose one of the four categories below and upload at least one photo — both are required.</div>
+          <div class="cats">
+            <span class="cat">Sneakers</span>
+            <span class="cat">Streetwear</span>
+            <span class="cat">Vintage</span>
+            <span class="cat">Kids &amp; Baby</span>
+          </div>
+          <span class="req"><i class="ti ti-photo"></i> Photo required</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-title"><i class="ti ti-map-pin"></i> Add an address</div>
+          <div class="step-desc">Enter a shipping or billing address when prompted. A real or plausible US address works fine.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left">
+          <div class="step-num">4</div>
+        </div>
+        <div class="step-content">
+          <div class="step-title"><i class="ti ti-credit-card"></i> Add payment &amp; check out</div>
+          <div class="step-desc">Use the Stripe test card below — do not enter a real card. Click any value to copy it.</div>
+          <div class="cc-box">
+            <div class="cc-label-head">Stripe test card</div>
+            <div class="cc-row">
+              <span class="cc-key">Card number</span>
+              <span class="cc-val" onclick="copyVal(this,'4242424242424242')">4242 4242 4242 4242</span>
+            </div>
+            <div class="cc-row">
+              <span class="cc-key">Expiry</span>
+              <span class="cc-val" onclick="copyVal(this,'12/34')">12/34</span>
+            </div>
+            <div class="cc-row">
+              <span class="cc-key">CVC</span>
+              <span class="cc-val" onclick="copyVal(this,'123')">123</span>
+            </div>
+            <div class="cc-row">
+              <span class="cc-key">ZIP</span>
+              <span class="cc-key" style="color:#aaa;font-size:12px;">Any valid value</span>
+            </div>
+            <p class="copy-hint">Click any value to copy to clipboard.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Quick feedback survey</h2>
+    <p class="survey-sub">Share your experience — takes about 2 minutes.</p>
+
+    <div class="q-block">
+      <label class="q-label">1. How easy was the sign-up process?</label>
+      <div class="star-row" id="stars-signup">
+        <span class="star" onclick="rate('signup',1)">★</span>
+        <span class="star" onclick="rate('signup',2)">★</span>
+        <span class="star" onclick="rate('signup',3)">★</span>
+        <span class="star" onclick="rate('signup',4)">★</span>
+        <span class="star" onclick="rate('signup',5)">★</span>
+      </div>
+      <div class="rating-labels"><span class="rating-label">Very difficult</span><span class="rating-label">Very easy</span></div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">2. How easy was creating your listing?</label>
+      <div class="star-row" id="stars-listing">
+        <span class="star" onclick="rate('listing',1)">★</span>
+        <span class="star" onclick="rate('listing',2)">★</span>
+        <span class="star" onclick="rate('listing',3)">★</span>
+        <span class="star" onclick="rate('listing',4)">★</span>
+        <span class="star" onclick="rate('listing',5)">★</span>
+      </div>
+      <div class="rating-labels"><span class="rating-label">Very difficult</span><span class="rating-label">Very easy</span></div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">3. How would you describe the checkout experience?</label>
+      <div class="options" id="opts-checkout">
+        <span class="opt" onclick="toggle(this,'checkout')">Smooth and clear</span>
+        <span class="opt" onclick="toggle(this,'checkout')">A little confusing</span>
+        <span class="opt" onclick="toggle(this,'checkout')">Too many steps</span>
+        <span class="opt" onclick="toggle(this,'checkout')">Broken or had errors</span>
+        <span class="opt" onclick="toggle(this,'checkout')">Not sure</span>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">4. Did you run into any problems or bugs?</label>
+      <div class="options" id="opts-bugs">
+        <span class="opt" onclick="toggle(this,'bugs')">No issues</span>
+        <span class="opt" onclick="toggle(this,'bugs')">Minor glitch</span>
+        <span class="opt" onclick="toggle(this,'bugs')">Something was broken</span>
+        <span class="opt" onclick="toggle(this,'bugs')">Multiple problems</span>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">5. What felt most confusing or frustrating?</label>
+      <span class="q-sub">Leave blank if everything went smoothly.</span>
+      <textarea id="pain" placeholder="Describe anything that felt unclear, slow, or broken…"></textarea>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">6. How likely are you to use a marketplace like this for real?</label>
+      <div class="nps-row" id="nps">
+        <button class="nps-btn" onclick="nps(this,0)">0</button>
+        <button class="nps-btn" onclick="nps(this,1)">1</button>
+        <button class="nps-btn" onclick="nps(this,2)">2</button>
+        <button class="nps-btn" onclick="nps(this,3)">3</button>
+        <button class="nps-btn" onclick="nps(this,4)">4</button>
+        <button class="nps-btn" onclick="nps(this,5)">5</button>
+        <button class="nps-btn" onclick="nps(this,6)">6</button>
+        <button class="nps-btn" onclick="nps(this,7)">7</button>
+        <button class="nps-btn" onclick="nps(this,8)">8</button>
+        <button class="nps-btn" onclick="nps(this,9)">9</button>
+        <button class="nps-btn" onclick="nps(this,10)">10</button>
+      </div>
+      <div class="rating-labels"><span class="rating-label">Not at all likely</span><span class="rating-label">Extremely likely</span></div>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">7. Any other thoughts or suggestions?</label>
+      <textarea id="other" placeholder="Anything else you'd like us to know…"></textarea>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submit()">Submit feedback</button>
+    <div class="toast" id="toast">✓ Thanks — your feedback has been recorded!</div>
+    <div class="error-msg" id="error-msg">Something went wrong. Please try again or let your coordinator know.</div>
+  </div>
+
+</div>
+
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzxQi2DA4AupPEAyQRtybg9ClYv5ODN7bPYU0sZaunEojm_3Yde4xNDd_zQ1jZzR9x-8Q/exec';
+
+const ratings = {};
+function rate(id, val) {
+  ratings[id] = val;
+  document.querySelectorAll('#stars-' + id + ' .star').forEach((s, i) => s.classList.toggle('on', i < val));
+}
+
+const selections = {};
+function toggle(el, group) {
+  document.querySelectorAll('#opts-' + group + ' .opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  selections[group] = el.textContent;
+}
+
+function nps(btn, val) {
+  document.querySelectorAll('#nps .nps-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selections['nps'] = val;
+}
+
+function copyVal(el, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = el.textContent;
+    el.textContent = 'Copied!';
+    setTimeout(() => el.textContent = orig, 1200);
+  });
+}
+
+async function submit() {
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  document.getElementById('error-msg').classList.remove('show');
+
+  const payload = {
+    signup_ease: ratings['signup'] || '',
+    listing_ease: ratings['listing'] || '',
+    checkout: selections['checkout'] || '',
+    bugs: selections['bugs'] || '',
+    pain_point: document.getElementById('pain').value || '',
+    likelihood: selections['nps'] !== undefined ? selections['nps'] : '',
+    other: document.getElementById('other').value || ''
+  };
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('toast').classList.add('show');
+    btn.textContent = 'Submitted ✓';
+  } catch (err) {
+    document.getElementById('error-msg').classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Submit feedback';
+  }
+}
+</script>
+</body>
+</html>
