@@ -296,8 +296,10 @@ async function submit() {
   const storename = document.getElementById('storename').value.trim();
   let valid = true;
 
-  if (!email) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailPattern.test(email)) {
     document.getElementById('email-error').style.display = 'block';
+    document.getElementById('email-error').textContent = !email ? 'Please enter your email address.' : 'Please enter a valid email address (e.g. name@example.com).';
     document.getElementById('email').style.borderColor = '#F09595';
     valid = false;
   } else {
