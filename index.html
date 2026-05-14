@@ -23,6 +23,11 @@
   .step-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; display: flex; align-items: center; gap: 7px; }
   .step-title i { font-size: 15px; color: #888; }
   .step-desc { font-size: 13px; color: #666; line-height: 1.6; }
+  .photo-rules { margin-top: 8px; padding: 10px 12px; background: #f8f8f6; border-radius: 8px; border: 0.5px solid #e4e4e4; }
+  .photo-rules ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .photo-rules ul li { font-size: 13px; color: #555; display: flex; align-items: center; gap: 6px; }
+  .photo-rules ul li::before { content: '·'; font-weight: 700; color: #aaa; }
+  .beta-note { font-size: 12px; color: #888; font-style: italic; margin-top: 8px; line-height: 1.5; }
   .cats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .cat { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: #f5f5f3; border: 0.5px solid #d8d8d8; color: #555; }
   .req { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; color: #854F0B; background: #FAEEDA; border-radius: 20px; padding: 2px 8px; margin-top: 8px; }
@@ -69,10 +74,11 @@
 
   <div class="card">
     <span class="badge">Beta tester guide</span>
-    <h1>OSS beta testing — job aid</h1>
+    <h1>OSS Beta Testing - Job Aid</h1>
     <p class="sub">Follow each step, then complete the short survey at the end.</p>
     <hr class="divider">
     <div class="steps">
+
       <div class="step">
         <div class="step-left">
           <div class="step-num">1</div>
@@ -83,6 +89,7 @@
           <div class="step-desc">Sign up with your real name and a working email. You'll need to verify it before continuing.</div>
         </div>
       </div>
+
       <div class="step">
         <div class="step-left">
           <div class="step-num">2</div>
@@ -90,16 +97,25 @@
         </div>
         <div class="step-content">
           <div class="step-title"><i class="ti ti-tag"></i> Create a product listing</div>
-          <div class="step-desc">List a real product with a title, description, and price. Choose one of the four categories below and upload at least one photo — both are required.</div>
+          <div class="step-desc">List a real product with a title, description, and price. Pick one of the four categories below and upload at least one photo.</div>
           <div class="cats">
             <span class="cat">Sneakers</span>
             <span class="cat">Streetwear</span>
             <span class="cat">Vintage</span>
             <span class="cat">Kids &amp; Baby</span>
           </div>
+          <div class="photo-rules">
+            <ul>
+              <li>Use your own photo, or</li>
+              <li>Stock or demo images</li>
+              <li>No copyrighted images pulled from the internet</li>
+            </ul>
+          </div>
+          <p class="beta-note"><strong>These listings are for beta purposes only. Once you're done, send us your store name so we can review your listing.</strong></p>
           <span class="req"><i class="ti ti-photo"></i> Photo required</span>
         </div>
       </div>
+
       <div class="step">
         <div class="step-left">
           <div class="step-num">3</div>
@@ -110,6 +126,7 @@
           <div class="step-desc">Enter a shipping or billing address when prompted. A real or plausible US address works fine.</div>
         </div>
       </div>
+
       <div class="step">
         <div class="step-left">
           <div class="step-num">4</div>
@@ -139,6 +156,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -171,13 +189,13 @@
     </div>
 
     <div class="q-block">
-      <label class="q-label">3. How would you describe the checkout experience?</label>
-      <div class="options" id="opts-checkout">
-        <span class="opt" onclick="toggle(this,'checkout')">Smooth and clear</span>
-        <span class="opt" onclick="toggle(this,'checkout')">A little confusing</span>
-        <span class="opt" onclick="toggle(this,'checkout')">Too many steps</span>
-        <span class="opt" onclick="toggle(this,'checkout')">Broken or had errors</span>
-        <span class="opt" onclick="toggle(this,'checkout')">Not sure</span>
+      <label class="q-label">3. How would you describe the overall flow from start to finish?</label>
+      <div class="options" id="opts-flow">
+        <span class="opt" onclick="toggle(this,'flow')">Smooth and clear</span>
+        <span class="opt" onclick="toggle(this,'flow')">A little confusing</span>
+        <span class="opt" onclick="toggle(this,'flow')">Too many steps</span>
+        <span class="opt" onclick="toggle(this,'flow')">Broken or had errors</span>
+        <span class="opt" onclick="toggle(this,'flow')">Not sure</span>
       </div>
     </div>
 
@@ -266,7 +284,7 @@ async function submit() {
   const payload = {
     signup_ease: ratings['signup'] || '',
     listing_ease: ratings['listing'] || '',
-    checkout: selections['checkout'] || '',
+    overall_flow: selections['flow'] || '',
     bugs: selections['bugs'] || '',
     pain_point: document.getElementById('pain').value || '',
     likelihood: selections['nps'] !== undefined ? selections['nps'] : '',
