@@ -180,6 +180,29 @@
     </div>
 
     <div class="q-block">
+      <label class="q-label">Number Of Listings Submitted <span style="color:#A32D2D;">*</span></label>
+      <select id="listings" style="width:100%;font-size:13px;font-family:inherit;padding:10px 12px;border:0.5px solid #d0d0d0;border-radius:10px;background:#fff;color:#1a1a1a;appearance:auto;">
+        <option value="">Select number of listings</option>
+        <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+        <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+        <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+      </select>
+      <span id="listings-error" style="display:none;font-size:12px;color:#A32D2D;margin-top:4px;">Please select the number of listings submitted.</span>
+    </div>
+
+    <div class="q-block">
+      <label class="q-label">How Would You Like To Be Paid <span style="color:#A32D2D;">*</span></label>
+      <select id="payment" style="width:100%;font-size:13px;font-family:inherit;padding:10px 12px;border:0.5px solid #d0d0d0;border-radius:10px;background:#fff;color:#1a1a1a;appearance:auto;">
+        <option value="">Select payment method</option>
+        <option>Venmo</option>
+        <option>Zelle</option>
+        <option>PayPal</option>
+        <option>Cash App</option>
+      </select>
+      <span id="payment-error" style="display:none;font-size:12px;color:#A32D2D;margin-top:4px;">Please select your preferred payment method.</span>
+    </div>
+
+    <div class="q-block">
       <label class="q-label">1. How easy was the sign-up process?</label>
       <div class="star-row" id="stars-signup">
         <span class="star" onclick="rate('signup',1)">★</span>
@@ -261,7 +284,7 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyJGGUPCN7Id7jjnOY1wXLyWCXXXlSWVgSed5tP0-kq0d7eLe2pZuq1YYCFvZfp1__AnQ/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxs7uwpEAPZ3WRgQpk3X1ri0J9LYk1a7wCD1Aox5buXGr6B2IvQQAKmW-FE4KDLrL4YVA/exec';
 
 const ratings = {};
 function rate(id, val) {
@@ -316,6 +339,26 @@ async function submit() {
     document.getElementById('storename').style.borderColor = '#d0d0d0';
   }
 
+  const listings = document.getElementById('listings').value;
+  if (!listings) {
+    document.getElementById('listings-error').style.display = 'block';
+    document.getElementById('listings').style.borderColor = '#F09595';
+    valid = false;
+  } else {
+    document.getElementById('listings-error').style.display = 'none';
+    document.getElementById('listings').style.borderColor = '#d0d0d0';
+  }
+
+  const payment = document.getElementById('payment').value;
+  if (!payment) {
+    document.getElementById('payment-error').style.display = 'block';
+    document.getElementById('payment').style.borderColor = '#F09595';
+    valid = false;
+  } else {
+    document.getElementById('payment-error').style.display = 'none';
+    document.getElementById('payment').style.borderColor = '#d0d0d0';
+  }
+
   if (!valid) return;
 
   btn.disabled = true;
@@ -325,6 +368,8 @@ async function submit() {
   const payload = {
     email: email,
     store_name: storename,
+    listings_submitted: listings,
+    payment_method: payment,
     signup_ease: ratings['signup'] || '',
     listing_ease: ratings['listing'] || '',
     overall_flow: selections['flow'] || '',
