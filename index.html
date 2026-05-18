@@ -192,7 +192,7 @@
 
     <div class="q-block">
       <label class="q-label">How Would You Like To Be Paid <span style="color:#A32D2D;">*</span></label>
-      <select id="payment" style="width:100%;font-size:13px;font-family:inherit;padding:10px 12px;border:0.5px solid #d0d0d0;border-radius:10px;background:#fff;color:#1a1a1a;appearance:auto;">
+      <select id="payment" onchange="showPaymentInfo(this.value)" style="width:100%;font-size:13px;font-family:inherit;padding:10px 12px;border:0.5px solid #d0d0d0;border-radius:10px;background:#fff;color:#1a1a1a;appearance:auto;">
         <option value="">Select payment method</option>
         <option>Venmo</option>
         <option>Zelle</option>
@@ -200,6 +200,12 @@
         <option>Cash App</option>
       </select>
       <span id="payment-error" style="display:none;font-size:12px;color:#A32D2D;margin-top:4px;">Please select your preferred payment method.</span>
+    </div>
+
+    <div class="q-block" id="payment-info-block" style="display:none;">
+      <label class="q-label" id="payment-info-label">Payment Info <span style="color:#A32D2D;">*</span></label>
+      <input type="text" id="paymentinfo" placeholder="" style="width:100%;font-size:13px;font-family:inherit;padding:10px 12px;border:0.5px solid #d0d0d0;border-radius:10px;background:#fff;color:#1a1a1a;" />
+      <span id="paymentinfo-error" style="display:none;font-size:12px;color:#A32D2D;margin-top:4px;">Please enter your payment details.</span>
     </div>
 
     <div class="q-block">
@@ -284,7 +290,7 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxs7uwpEAPZ3WRgQpk3X1ri0J9LYk1a7wCD1Aox5buXGr6B2IvQQAKmW-FE4KDLrL4YVA/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzz_TwfY9_6YqzSVzsF0veMvyKhIrLjBgl-4uCYNbVdqWiauaJI4U-4aFl_x0hiTHnrHA/exec';
 
 const ratings = {};
 function rate(id, val) {
@@ -303,6 +309,31 @@ function nps(btn, val) {
   document.querySelectorAll('#nps .nps-btn').forEach(b => b.classList.remove('sel'));
   btn.classList.add('sel');
   selections['nps'] = val;
+}
+
+function showPaymentInfo(method) {
+  const block = document.getElementById('payment-info-block');
+  const label = document.getElementById('payment-info-label');
+  const input = document.getElementById('paymentinfo');
+  const labels = {
+    'Venmo': 'What is your Venmo username? <span style="color:#A32D2D;">*</span>',
+    'Zelle': 'What phone number or email is linked to your Zelle account? <span style="color:#A32D2D;">*</span>',
+    'PayPal': 'What email address is linked to your PayPal account? <span style="color:#A32D2D;">*</span>',
+    'Cash App': 'What is your Cash App $cashtag? <span style="color:#A32D2D;">*</span>'
+  };
+  const placeholders = {
+    'Venmo': '@your-username',
+    'Zelle': 'Phone number or email',
+    'PayPal': 'email@example.com',
+    'Cash App': '$yourcashtag'
+  };
+  if (method && labels[method]) {
+    label.innerHTML = labels[method];
+    input.placeholder = placeholders[method];
+    block.style.display = 'block';
+  } else {
+    block.style.display = 'none';
+  }
 }
 
 function copyVal(el, text) {
@@ -359,6 +390,16 @@ async function submit() {
     document.getElementById('payment').style.borderColor = '#d0d0d0';
   }
 
+  const paymentinfo = document.getElementById('paymentinfo').value.trim();
+  if (payment && !paymentinfo) {
+    document.getElementById('paymentinfo-error').style.display = 'block';
+    document.getElementById('paymentinfo').style.borderColor = '#F09595';
+    valid = false;
+  } else {
+    document.getElementById('paymentinfo-error').style.display = 'none';
+    document.getElementById('paymentinfo').style.borderColor = '#d0d0d0';
+  }
+
   if (!valid) return;
 
   btn.disabled = true;
@@ -370,6 +411,7 @@ async function submit() {
     store_name: storename,
     listings_submitted: listings,
     payment_method: payment,
+    payment_info: document.getElementById('paymentinfo').value.trim(),
     signup_ease: ratings['signup'] || '',
     listing_ease: ratings['listing'] || '',
     overall_flow: selections['flow'] || '',
